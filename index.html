@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" defer="true"></script>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+            font-family: cursive;
+            padding: 1rem;
+            gap: 2rem;
+        }
+
+        .text-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+            width: 700px;
+            height: 150px;
+            padding: 10px;
+            border: 2px solid black;
+
+        }
+
+        .input {
+            display: flex;
+            width: 700px;
+            text-align: center;
+        }
+
+        @media (max-width:750px) {
+            .text-box {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                align-content: center;
+                width: 80vw;
+                height: 150px;
+                padding: 10px;
+                border: 2px solid black;
+
+            }
+
+            .input {
+                display: flex;
+                width: 80vw;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="type-app">
+        <nav class="container-fluid bg-black text-light text-center py-3">
+            <h1>TYPE GAME (DEMO)</h1>
+        </nav>
+
+        <div class="content d-flex justify-content-between p-3">
+            <div class=" my-2 p-4 border border-2 rounded rounded-pill">
+                <strong><span id="hours">00</span> : <span id="mins">00</span> : <span id="secs">00</span></strong>
+            </div>
+            <div class=" my-2 p-4 border border-2 rounded rounded-pill">
+                <strong> LIVES => <span id="life">3</span> / 3 </strong>
+            </div>
+        </div>
+
+        <div class="container">
+
+            <div class="text-box rounded rounded-3" id="textbox">
+                <span id="texts" style="font-size:35px"></span>
+            </div>
+            <div>
+                <input id="input" type="text" class="input rounded rounded-3 p-3 my-4 border border-3 display-2">
+            </div>
+
+            <div>
+                <button type="button" class="btn btn-outline-dark p-4 rounded rounded-4" id="button">START</button>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">SCORE-CARD</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <span>YOUR SCORE:</span>
+                        <strong><span id="h">00</span> : <span id="m">00</span> : <span id="s">00</span></strong>
+                        <h1 class="text-center my-2">RECORD SCORE</h1>
+                        <div class="text-center">
+                            <span id="record" class="text-center display-4 text-success"></span>
+                            <span id="highscore" class="text-center text-success my-1" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">CLOSE</button>
+                        <button type="button" class="btn btn-outline-dark" onclick="refresh()">AGAIN</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let input = document.getElementById("input")
+
+        input.disabled = true;
+
+        let button = document.getElementById("button")
+
+        let hrs = document.getElementById("hours")
+        let mins = document.getElementById("mins")
+        let secs = document.getElementById("secs")
+        let h = document.getElementById("h")
+        let m = document.getElementById("m")
+        let s = document.getElementById("s")
+
+        var seconds = 0
+        var interval = null
+
+        button.addEventListener("click", Start)
+
+        function Start() {
+            input.disabled = false;
+            if (interval) return
+            interval = setInterval(stopwatch, 1000)
+        }
+        function Stop() {
+            clearInterval(interval)
+            interval = null
+        }
+        function stopwatch() {
+            seconds++
+            let hours = Math.floor(seconds / 3600)
+            let minutes = Math.floor((seconds - (hours * 3600)) / 60)
+            let sec = seconds % 60
+
+            if (sec < 10) sec = "0" + sec
+            if (minutes < 10) minutes = "0" + minutes
+            if (hours < 10) hours = "0" + hours
+
+            hrs.innerText = `${hours}`
+            mins.innerText = `${minutes}`
+            secs.innerText = `${sec}`
+        }
+        let textsarea = document.getElementById("texts")
+        let text = [
+            "hello world",
+            "woRld Hello",
+            "HELLO WORLD",
+            "HellO WorlD",
+            "HeLlO wOrLd",
+            "hello WORLD",
+            "HELLO world",
+            "Hello worlD",
+            "HELLo WoRLD",
+            "hEllO worLD"
+        ]
+
+        function Tarea(index) {
+            textsarea.innerText = text[index]
+            i = index
+            Ontext = text[index];
+            // console.log(Ontext)
+        }
+
+        let i = 0
+        Tarea(i)
+        let life = document.getElementById("life")
+        let textbox = document.getElementById("textbox")
+        let highscore = document.getElementById("highscore")
+        count = 3
+        input.maxLength = Ontext.length
+        let currentStatus = false;
+        input.addEventListener("input", ({ target: { value } }) => {
+            if (currentStatus === true && value !== Ontext.slice(0, value.length)) {
+                input.value = value.slice(0, value.length - 1);
+                // console.log(Ontext === input.value);
+                if (value === Ontext.slice(0, value.length)) currentStatus = false;
+                return;
+
+            } else {
+                currentStatus = false;
+            }
+            console.log(currentStatus);
+            let isCurrect = value === Ontext.slice(0, value.length);
+            console.log(isCurrect);
+            if (!isCurrect) {
+                currentStatus = true;
+                input.style.color = "red"
+                // input.maxLength=i;
+                count -= 1;
+                life.innerText = count
+                if (count <= 1) life.style.color = "red"
+                if (count < 1) {
+                    alert("U LOST , REFRESHING THE PAGE FOR YOU TO TRY AGAIN")
+                    refresh()
+                }
+            } else {
+                input.style.color = "green";
+                currentStatus = false;
+            }
+
+            if (textsarea.innerText == input.value) {
+                if (i < text.length - 1) {
+                    Tarea(i + 1)
+                    input.value = ""
+                }
+                else {
+                    textsarea.innerText = "DONE"
+                    textsarea.style.color = "white"
+                    textbox.style.backgroundColor = "green"
+                    input.value = ""
+                    Stop()
+                    h.innerText = hrs.innerText
+                    m.innerText = mins.innerText
+                    s.innerText = secs.innerText
+
+                    score = `${h.innerText} : ${m.innerText} : ${s.innerText}`
+                    ScorE = `${h.innerText}${m.innerText}${s.innerText}`
+
+                    if (!JSON.parse(localStorage.getItem("number"))) {
+                        localStorage.setItem("score", JSON.stringify(score))
+                        localStorage.setItem("number", JSON.stringify(ScorE))
+                        highscore.innerText = "YOU GOT THE RECORD SCORE"
+                    }
+                    if (Number(ScorE) <= JSON.parse(localStorage.getItem("number"))) {
+                        localStorage.setItem("score", JSON.stringify(score))
+                        localStorage.setItem("number", JSON.stringify(ScorE))
+                        highscore.innerText = "YOU GOT THE RECORD SCORE"
+                    }
+
+                    let record = document.getElementById("record")
+                    record.innerText = (localStorage.getItem("score"))
+                    var myModal = new bootstrap.Modal(document.getElementById("exampleModal"));
+                    myModal.show();
+
+
+                }
+
+
+            }
+        })
+
+        function refresh() {
+            document.location.reload();
+        }
+
+    </script>
+</body>
+
+</html>
